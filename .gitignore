@@ -3,7 +3,7 @@
 
 # Excludes - only control these files
 !.gitignore
-! *.md
+!*.md
 !init.el
 !early-init.el
 !lisp/
