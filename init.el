@@ -17,7 +17,8 @@
 (use-package package
   :hook after-init-hook
   :config
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+ (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+;  (add-to-list 'package-archives '("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/") t)
   (unless (bound-and-true-p package--initialized)
     (package-initialize)))
 
