@@ -175,6 +175,21 @@
   :config
   (ivy-mode 1))
 
+;; 安装 counsel 和 ivy-rich
+(use-package counsel
+  :ensure t
+  :config
+  ;; 在这里添加任何你想配置的 counsel 相关设置
+  )
+
+(use-package ivy-rich
+  :ensure t
+  :after counsel
+  :config
+  (ivy-rich-mode 1)
+  ;; 在这里添加任何你想配置的 ivy-rich 相关设置
+  )
+
 ;; 选择并启用主题
 
 
@@ -247,6 +262,37 @@
 (setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"
                               "xelatex -interaction nonstopmode %f"))
 
+(cond
+  ;; Windows
+  ((eq system-type 'windows-nt)
+   (setq TeX-view-program-selection '((output-pdf "SumatraPDF")))
+   (setq TeX-view-program-list
+         '(("SumatraPDF" "sumatrapdf.exe -reuse-instance %o"))))
+
+  ;; macOS
+  ((eq system-type 'darwin)
+   (setq TeX-view-program-selection '((output-pdf "Skim")))
+   (setq TeX-view-program-list
+         '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b"))))
+
+;; 设置默认的 PDF 阅读器
+(if (eq system-type 'windows-nt)
+    (setq org-pdf-viewer "/path/to/sumatra.exe")
+  (if (eq system-type 'darwin)
+      (setq org-pdf-viewer "/Applications/Skim.app/Contents/MacOS/Skim")))
+
+;; 设置 org-mode 导出 PDF 时使用的 PDF 阅读器
+(setq org-file-apps
+      '((auto-mode . emacs)
+        ("\\.pdf\\'" . org-pdf-viewer)))
+
+  
+  ;; Linux
+  ((eq system-type 'gnu/linux)
+   ;; 在这里添加 Linux 下 PDF 阅读器的设置
+   ))
+
+
 (use-package doom-themes
   :ensure t
   :config
@@ -269,14 +315,14 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install))
-;; 将 pdf-view-mode 设置为默认的 PDF 阅读器
-(setq auto-mode-alist
-      (append '(("\\.pdf\\'" . pdf-view-mode))
-              auto-mode-alist))
+;; (use-package pdf-tools
+;;   :ensure t
+;;   :config
+;;   (pdf-tools-install))
+;; ;; 将 pdf-view-mode 设置为默认的 PDF 阅读器
+;; (setq auto-mode-alist
+;;       (append '(("\\.pdf\\'" . pdf-view-mode))
+;;               auto-mode-alist))
 
 
 (defun adjust-emacs-scaling ()
