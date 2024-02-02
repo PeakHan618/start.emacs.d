@@ -227,7 +227,10 @@
 (setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"
                               "xelatex -interaction nonstopmode %f"))
 
-
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-zenburn t))
 
 
 ;; NeoTree的相关设置
@@ -245,6 +248,16 @@
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install))
+;; 将 pdf-view-mode 设置为默认的 PDF 阅读器
+(setq auto-mode-alist
+      (append '(("\\.pdf\\'" . pdf-view-mode))
+              auto-mode-alist))
+
 
 (defun adjust-emacs-scaling ()
   "Adjust Emacs scaling based on monitor resolution."

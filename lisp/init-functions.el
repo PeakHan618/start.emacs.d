@@ -10,15 +10,18 @@
 	   gcs-done))
 (add-hook 'emacs-startup-hook #'efs/display-startup-time)
 
+;(add-to-list 'load-path "~/.emacs.d/elpa/")
+
+
 (defun dark-theme ()
   "Activate dark theme."
 
   (interactive)
   (dolist (theme custom-enabled-themes)
     (disable-theme theme))
-  (load-theme 'modus-vivendi t)
-;  (load-theme 'zenburn-theme t)
-  )
+;;    (load-theme 'doom-zenburn t))
+  (load-theme 'zenburn t))
+;;   (load-theme 'modus-vivendi t)
 
 (defun light-theme ()
   "Activate light theme."
