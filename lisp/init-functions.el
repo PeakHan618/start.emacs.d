@@ -16,7 +16,9 @@
   (interactive)
   (dolist (theme custom-enabled-themes)
     (disable-theme theme))
-  (load-theme 'modus-vivendi t))
+  (load-theme 'modus-vivendi t)
+;  (load-theme 'zenburn-theme t)
+  )
 
 (defun light-theme ()
   "Activate light theme."

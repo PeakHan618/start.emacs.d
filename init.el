@@ -78,7 +78,11 @@
   :config
   (setq org-hide-leading-stars t
 	org-hide-emphasis-markers t
-	org-startup-indented t))
+	org-startup-indented t
+	org-startup-with-latex-preview t)
+	(setq org-image-actual-width '(300))
+	;; 启用 org-toggle-inline-images 插件
+  	(add-hook 'org-mode-hook 'org-toggle-inline-images))
 
 ;; Pulse the cursor line
 (dolist (cmd '(recenter-top-bottom other-window))
@@ -136,6 +140,24 @@
   :ensure t
   :bind ("C-;" . iedit-mode))
 
+(use-package powerline
+  :ensure t
+  :config
+  ;; 设置 Powerline 主题为 Vim 风格
+  (setq powerline-default-separator 'arrow-fade)
+  (setq powerline-arrow-shape 'arrow)
+  (setq powerline-arrow-shape 'curve)
+  (powerline-default-theme))
+
+;; 安装ivy
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode 1))
+
+;; 选择并启用主题
+
+
 ;; move-dup, move/copy line or region
 (use-package move-dup
   :ensure t
@@ -189,6 +211,53 @@
 ;; Markdown file support
 (use-package markdown-mode
   :ensure t)
+
+(use-package tex
+  :ensure auctex
+  :config
+  ;; 在这里添加你的 AUCTeX 配置
+  )
+
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(setq-default TeX-engine 'xelatex) ; 设置默认编译引擎为 xelatex
+
+(setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"
+                              "xelatex -interaction nonstopmode %f"))
+
+
+
+
+;; NeoTree的相关设置
+(use-package neotree
+  :ensure t
+  :defer t
+  :config
+  (setq neo-theme (if (display-graphic-p) 'nerd 'arrow))) ; 设置 NeoTree 主题为 nerd 或 arrow
+
+;; 绑定 NeoTree 切换命令到 F8
+(global-set-key [f8] 'neotree-toggle)
+
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(defun adjust-emacs-scaling ()
+  "Adjust Emacs scaling based on monitor resolution."
+  (interactive)
+  (let* ((monitor-width (display-pixel-width))
+         (scaling-factor (if (> monitor-width 1080)
+                             (/ monitor-width 1080.0)
+                           1.0)))
+    (set-face-attribute 'default nil :height (floor (* (face-attribute 'default :height) scaling-factor)))))
+
+(adjust-emacs-scaling)
+
+
 
 ;; Run code
 (use-package quickrun
@@ -268,6 +337,9 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
+
+;(setq default-directory "/Users/henri/Desktop/GitCode/Hello/Editor/")
+
 
 (provide 'init)
 
