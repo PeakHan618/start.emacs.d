@@ -140,14 +140,33 @@
   :ensure t
   :bind ("C-;" . iedit-mode))
 
-(use-package powerline
+;; (use-package powerline
+;;   :ensure t
+;;   :config
+;;   ;; 设置 Powerline 主题为 Vim 风格
+;;   (setq powerline-default-separator 'arrow-fade)
+;;   (setq powerline-arrow-shape 'arrow)
+;;   (setq powerline-arrow-shape 'curve)
+;;   (powerline-default-theme))
+
+(use-package doom-modeline
   :ensure t
-  :config
-  ;; 设置 Powerline 主题为 Vim 风格
-  (setq powerline-default-separator 'arrow-fade)
-  (setq powerline-arrow-shape 'arrow)
-  (setq powerline-arrow-shape 'curve)
-  (powerline-default-theme))
+  :init
+  (doom-modeline-mode 1))
+
+(setq doom-modeline-height 25
+      doom-modeline-bar-width 3
+      doom-modeline-lsp t
+      doom-modeline-github t
+      doom-modeline-icon t
+      doom-modeline-major-mode-icon t
+      doom-modeline-buffer-file-name-style 'truncate-except-project
+      doom-modeline-buffer-modification-icon t
+      doom-modeline-unicode-fallback t
+      doom-modeline-minor-modes t
+      doom-modeline-enable-word-count t
+      doom-modeline-modal-icon t)
+
 
 ;; 安装ivy
 (use-package ivy
