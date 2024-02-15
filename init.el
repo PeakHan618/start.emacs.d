@@ -7,8 +7,16 @@
 
 (defvar cabins-os-win (memq system-type '(ms-dos windows-nt cygwin)))
 (defvar cabins-os-mac (eq system-type 'darwin))
-(when (find-font (font-spec :family "Sarasa Mono SC"))
-  (set-face-attribute 'default nil :family "Sarasa Mono SC"))
+; (when (find-font (font-spec :family "Sarasa Mono SC"))
+;   (set-face-attribute 'default nil :family "Sarasa Mono SC"))
+
+(when (member "Cascadia Code" (font-family-list))
+  (set-face-attribute 'default nil :family "Cascadia Code" :height 120))
+(when (member "楷体-简" (font-family-list))
+  (dolist (charset '(han kana symbol cjk-misc bopomofo))
+    (set-fontset-font (frame-parameter nil 'font) charset "楷体-简" nil 'prepend)))
+
+
 
 ;; packages
 (add-to-list 'load-path (concat user-emacs-directory "lisp"))
@@ -169,26 +177,26 @@
       doom-modeline-modal-icon t)
 
 
-;; 安装ivy
-(use-package ivy
-  :ensure t
-  :config
-  (ivy-mode 1))
+; ;; 安装ivy
+; (use-package ivy
+;   :ensure t
+;   :config
+;   (ivy-mode 1))
 
-;; 安装 counsel 和 ivy-rich
-(use-package counsel
-  :ensure t
-  :config
-  ;; 在这里添加任何你想配置的 counsel 相关设置
-  )
+; ;; 安装 counsel 和 ivy-rich
+; (use-package counsel
+;   :ensure t
+;   :config
+;   ;; 在这里添加任何你想配置的 counsel 相关设置
+;   )
 
-(use-package ivy-rich
-  :ensure t
-  :after counsel
-  :config
-  (ivy-rich-mode 1)
-  ;; 在这里添加任何你想配置的 ivy-rich 相关设置
-  )
+; (use-package ivy-rich
+;   :ensure t
+;   :after counsel
+;   :config
+;   (ivy-rich-mode 1)
+;   ;; 在这里添加任何你想配置的 ivy-rich 相关设置
+;   )
 
 ;; 选择并启用主题
 
@@ -247,6 +255,22 @@
 (use-package markdown-mode
   :ensure t)
 
+(use-package markdown-preview-mode
+  :ensure t)
+
+;; 例如，绑定快捷键以打开实时预览
+(global-set-key (kbd "C-c p") 'markdown-preview-mode)
+
+(setq-default auto-mode-alist
+              (cons '("\\.html$" . html-mode) auto-mode-alist))
+
+(defun my-html-mode-hook ()
+  "Customize HTML mode."
+  (impatient-mode 1))
+
+(add-hook 'html-mode-hook 'my-html-mode-hook)
+
+
 (use-package tex
   :ensure auctex
   :config
@@ -298,13 +322,16 @@
   :config
   (load-theme 'doom-zenburn t))
 
+(use-package all-the-icons
+  :ensure t
+  :if (display-graphic-p))
 
 ;; NeoTree的相关设置
 (use-package neotree
   :ensure t
   :defer t
   :config
-  (setq neo-theme (if (display-graphic-p) 'nerd 'arrow))) ; 设置 NeoTree 主题为 nerd 或 arrow
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))) ; 设置 NeoTree 主题为 icons 或 arrow
 
 ;; 绑定 NeoTree 切换命令到 F8
 (global-set-key [f8] 'neotree-toggle)
